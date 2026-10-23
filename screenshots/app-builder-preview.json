@@ -1,0 +1,36 @@
+{
+  "url": "http://127.0.0.1:8080/",
+  "viewports": {
+    "desktop": {
+      "width": 1280,
+      "height": 800,
+      "status": 200,
+      "title": "Contable Pro",
+      "hasCanvas": false,
+      "bodyTextLen": 51,
+      "bodyTextHash": "e9beec7c7399fd5a9278fa1d94cc8e551a9f096ad282fd5799fc7283e31191af",
+      "bodyTextPrefix": "Contable Pro Abriendo los libros de Mercado Andino…",
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "/workspace/screenshots/app-builder-preview.png"
+    },
+    "mobile": {
+      "width": 390,
+      "height": 844,
+      "status": 200,
+      "title": "Contable Pro",
+      "hasCanvas": false,
+      "bodyTextLen": 51,
+      "bodyTextHash": "e9beec7c7399fd5a9278fa1d94cc8e551a9f096ad282fd5799fc7283e31191af",
+      "bodyTextPrefix": "Contable Pro Abriendo los libros de Mercado Andino…",
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "/workspace/screenshots/app-builder-preview-mobile.png"
+    }
+  },
+  "brandWarnings": [],
+  "authWarnings": [],
+  "verdictFile": "/workspace/screenshots/app-builder-preview.json"
+}
