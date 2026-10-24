@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { balanceSheet, dailySeries, healthReport, rangeFrom, statement } from "@/lib/books/model";
 import { compactMoney } from "@/lib/books/money";
@@ -8,6 +7,7 @@ import { useMoney } from "./ui";
 
 export function Pulso({ onJump }: { onJump: (view: ViewId) => void }) {
   const books = useBooks((s) => s.books);
+  const workspace = useBooks((s) => s.workspace);
   const money = useMoney();
   const now = new Date();
   const range = rangeFrom(now, "30d");
@@ -16,11 +16,7 @@ export function Pulso({ onJump }: { onJump: (view: ViewId) => void }) {
   const sheet = balanceSheet(books);
   const series = dailySeries(books, now, 14);
   const ar = sheet.assets.find((a) => a.id === "cxc")?.amount ?? 0;
-  const [showIntro, setShowIntro] = useState(false);
-
-  useEffect(() => {
-    setShowIntro(localStorage.getItem("contable-pro-intro") !== "off");
-  }, []);
+  const fresh = workspace === "live" && books.sales.length === 0 && books.purchases.length === 0;
 
   const parts = [
     ["Liquidez", health.liquidity],
@@ -29,14 +25,22 @@ export function Pulso({ onJump }: { onJump: (view: ViewId) => void }) {
     ["Inventario", health.inventory],
   ] as const;
 
+  const steps = [
+    { done: books.products.length > 0, title: "Carga el catálogo", detail: "Precio, costo y unidad. Sin producto no hay venta.", go: "inventario" as const, cta: "Ir a inventario" },
+    { done: books.products.some((p) => p.stock > 0), title: "Pon existencia", detail: "Compra a un proveedor o ajusta el stock inicial.", go: "inventario" as const, cta: "Registrar stock" },
+    { done: books.parties.some((p) => p.kind === "customer"), title: "Cliente, si vendes a crédito", detail: "El mostrador no exige cliente. El crédito sí.", go: "cobranza" as const, cta: "Añadir cliente" },
+    { done: false, title: "Primera venta", detail: "El diario, el impuesto y el costo se escriben solos.", go: "vender" as const, cta: "Abrir caja" },
+  ];
+
   return (
     <div className="space-y-5">
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
           <p className="text-xs font-medium tracking-[0.16em] text-copper-deep uppercase">Pulso</p>
-          <h1 className="mt-1 text-4xl text-ink">Cómo está el negocio hoy</h1>
+          <h1 className="mt-1 text-4xl text-ink">{fresh ? "Empresa abierta. Aún sin movimiento." : "Cómo está el negocio hoy"}</h1>
           <p className="mt-1 max-w-xl text-sm text-pretty text-muted">
-            {books.company.name} · {books.company.city}. Cada venta ya dejó su asiento, su IVA y su costo.
+            {books.company.name}
+            {books.company.city ? ` · ${books.company.city}` : ""}. {fresh ? "Los libros están en cero hasta que registres la operación real." : "Cada venta ya dejó su asiento, su impuesto y su costo."}
           </p>
         </div>
         <button type="button" onClick={() => onJump("vender")} className="min-h-11 rounded-xl bg-copper px-4 text-sm font-medium text-on-copper">
@@ -44,38 +48,48 @@ export function Pulso({ onJump }: { onJump: (view: ViewId) => void }) {
         </button>
       </div>
 
-      {showIntro && (
-        <div className="rounded-2xl border border-line bg-card p-4">
-          <p className="font-medium">Taller con datos de un mercado en Chapinero</p>
-          <p className="mt-1 text-sm text-pretty text-muted">
-            Lo que InventarioPro registraba como movimiento, aquí cierra libros: partida doble, cartera vencida y un copiloto que ejecuta órdenes en español. Todo queda en este navegador.
-          </p>
-          <button
-            type="button"
-            className="mt-3 text-sm font-medium text-copper-deep"
-            onClick={() => {
-              localStorage.setItem("contable-pro-intro", "off");
-              setShowIntro(false);
-            }}
-          >
-            Entendido
-          </button>
-        </div>
+      {fresh && (
+        <section className="rounded-3xl border border-line bg-card p-5">
+          <h2 className="text-2xl">Para empezar a operar</h2>
+          <ol className="mt-4 grid gap-3 md:grid-cols-2">
+            {steps.map((step, index) => (
+              <li key={step.title} className="rounded-2xl bg-paper px-4 py-3">
+                <p className="text-xs font-medium text-muted">{step.done ? "Listo" : `Paso ${index + 1}`}</p>
+                <p className="mt-1 font-medium">{step.title}</p>
+                <p className="mt-1 text-sm text-muted">{step.detail}</p>
+                {!step.done && (
+                  <button type="button" onClick={() => onJump(step.go)} className="mt-2 min-h-10 text-sm font-medium text-copper-deep">
+                    {step.cta}
+                  </button>
+                )}
+              </li>
+            ))}
+          </ol>
+        </section>
       )}
 
       <div className="grid gap-4 lg:grid-cols-[220px_1fr]">
         <section className="rounded-3xl bg-ink p-5 text-card">
           <p className="text-xs tracking-[0.14em] text-sand uppercase">Salud</p>
-          <p className="mt-2 font-display text-6xl tabular leading-none">{health.score}</p>
-          <p className="mt-2 text-sm text-sand">de 100, con los libros de los últimos 30 días</p>
-          <ul className="mt-4 space-y-2">
-            {parts.map(([label, value]) => (
-              <li key={label} className="flex items-center justify-between text-sm">
-                <span className="text-sand">{label}</span>
-                <span className="tabular">{value}/25</span>
-              </li>
-            ))}
-          </ul>
+          {fresh ? (
+            <>
+              <p className="mt-2 font-display text-4xl leading-none">Aún no</p>
+              <p className="mt-3 text-sm text-sand">El puntaje sale de ventas, caja y cartera reales. En cero no hay nada que calificar.</p>
+            </>
+          ) : (
+            <>
+              <p className="mt-2 font-display text-6xl tabular leading-none">{health.score}</p>
+              <p className="mt-2 text-sm text-sand">de 100, con los libros de los últimos 30 días</p>
+              <ul className="mt-4 space-y-2">
+                {parts.map(([label, value]) => (
+                  <li key={label} className="flex items-center justify-between text-sm">
+                    <span className="text-sand">{label}</span>
+                    <span className="tabular">{value}/25</span>
+                  </li>
+                ))}
+              </ul>
+            </>
+          )}
         </section>
         <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
           <Metric label="Caja y bancos" value={money(health.cash)} hint={health.runwayDays == null ? "Sin gastos recientes" : `Cubre ${Math.round(health.runwayDays)} días de gastos`} />
@@ -110,6 +124,11 @@ export function Pulso({ onJump }: { onJump: (view: ViewId) => void }) {
         <section className="rounded-3xl border border-line bg-card p-4 md:p-5">
           <h2 className="text-2xl">Lo que el libro está diciendo</h2>
           <ul className="mt-3 space-y-3">
+            {health.insights.length === 0 && (
+              <li className="rounded-2xl bg-paper px-3 py-3 text-sm text-muted">
+                {fresh ? "Cuando haya ventas, aquí aparecen quiebres de stock, cartera vencida y margen." : "Nada urgente en los libros de este periodo."}
+              </li>
+            )}
             {health.insights.map((insight) => (
               <li key={insight.title} className="rounded-2xl bg-paper px-3 py-3">
                 <p className={insight.tone === "alert" ? "font-medium text-wine" : insight.tone === "good" ? "font-medium text-forest" : "font-medium text-ink"}>

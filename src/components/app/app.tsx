@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useBooks } from "@/lib/books/store";
+import { Alta } from "./alta";
 import { Cobranza } from "./cobranza";
 import { Copiloto } from "./copiloto";
 import { Empresa } from "./empresa";
@@ -10,6 +12,7 @@ import { Shell, type ViewId } from "./shell";
 import { Vender } from "./vender";
 
 export function ContableApp() {
+  const workspace = useBooks((s) => s.workspace);
   const [view, setView] = useState<ViewId>("pulso");
   const [toast, setToast] = useState<string | null>(null);
 
@@ -17,6 +20,8 @@ export function ContableApp() {
     setToast(message);
     window.setTimeout(() => setToast(null), 3800);
   }
+
+  if (workspace === "setup") return <Alta />;
 
   return (
     <Shell view={view} onView={setView}>

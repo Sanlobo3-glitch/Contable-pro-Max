@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import { useEffect, useState, type ReactNode } from "react";
 import { useBooks } from "@/lib/books/store";
+import { UserButton } from "@/lib/auth/gates";
 import { cn } from "./ui";
 
 export type ViewId =
@@ -44,6 +45,10 @@ export function Shell({
 }) {
   const command = useBooks((s) => s.command);
   const company = useBooks((s) => s.books.company.name);
+  const workspace = useBooks((s) => s.workspace);
+  const cloud = useBooks((s) => s.cloud);
+  const beginSetup = useBooks((s) => s.beginSetup);
+  const cloudLabel = cloud === "saving" ? "Guardando en tu cuenta…" : cloud === "saved" ? "Guardado en tu cuenta" : cloud === "error" ? "No se pudo guardar en la cuenta" : "En tu cuenta";
   const [text, setText] = useState("");
   const [note, setNote] = useState<string | null>(null);
   const [more, setMore] = useState(false);
@@ -105,8 +110,12 @@ export function Shell({
             ))}
           </nav>
           <div className="border-t border-line px-5 py-4">
-            <p className="truncate text-sm font-medium">{company}</p>
-            <p className="mt-2 text-[11px] leading-relaxed text-muted">
+            <p className="truncate text-sm font-medium">{company || "Sin empresa"}</p>
+            <p className="mt-1 text-xs text-muted">{workspace === "sample" ? "Empresa de ejemplo" : cloudLabel}</p>
+            <div className="mt-3">
+              <UserButton />
+            </div>
+            <p className="mt-3 text-[11px] leading-relaxed text-muted">
               Desarrollado por <span className="font-medium text-ink-soft">Richard J. Lobo S.</span>
             </p>
           </div>
@@ -114,12 +123,15 @@ export function Shell({
 
         <div className="min-w-0 flex-1">
           <header className="no-print sticky top-0 z-20 border-b border-line bg-paper/90 px-4 py-3 backdrop-blur md:px-8">
-            <div className="flex items-center gap-3 md:hidden">
-              <div className="grid size-9 place-items-center rounded-lg bg-ink font-display text-card">Cp</div>
-              <div className="min-w-0">
-                <p className="font-display text-lg leading-none">Contable Pro</p>
-                <p className="truncate text-xs text-muted">{company}</p>
+            <div className="flex items-center justify-between gap-3 md:hidden">
+              <div className="flex min-w-0 items-center gap-3">
+                <div className="grid size-9 place-items-center rounded-lg bg-ink font-display text-card">Cp</div>
+                <div className="min-w-0">
+                  <p className="font-display text-lg leading-none">Contable Pro</p>
+                  <p className="truncate text-xs text-muted">{company}</p>
+                </div>
               </div>
+              <UserButton />
             </div>
             <form
               className="mt-3 md:mt-0"
@@ -135,7 +147,7 @@ export function Shell({
                 id="orden"
                 value={text}
                 onChange={(event) => setText(event.target.value)}
-                placeholder="Ordena en español: vender 2 café de origen a ana efectivo"
+                placeholder="Ordena en español: gastar 85000 en arriendo por banco"
                 className="h-12 w-full rounded-2xl border border-line bg-card px-4 text-base text-ink outline-none placeholder:text-muted focus:border-copper"
               />
             </form>
@@ -143,6 +155,20 @@ export function Shell({
               <p className="mt-2 text-sm text-ink-soft" role="status">
                 {note}
               </p>
+            )}
+            {workspace === "sample" && (
+              <div className="mt-3 flex flex-wrap items-center justify-between gap-2 rounded-2xl bg-sand px-3 py-2">
+                <p className="text-sm text-ink-soft">Estás en Mercado Andino, una empresa ficticia. Estos movimientos no son tus libros.</p>
+                <button
+                  type="button"
+                  className="min-h-10 shrink-0 text-sm font-medium text-copper-deep"
+                  onClick={() => {
+                    if (window.confirm("Sales del ejemplo y abres el alta de tu empresa. Lo de Mercado Andino se descarta.")) beginSetup();
+                  }}
+                >
+                  Crear mi empresa
+                </button>
+              </div>
             )}
           </header>
           <main className="px-4 pt-5 pb-28 md:px-8 md:pt-7 md:pb-12">{children}</main>

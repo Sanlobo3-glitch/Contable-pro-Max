@@ -1,0 +1,6 @@
+CREATE TABLE IF NOT EXISTS ledgers (
+  user_id TEXT PRIMARY KEY,
+  payload TEXT NOT NULL,
+  workspace TEXT NOT NULL,
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);

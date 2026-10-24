@@ -7,8 +7,10 @@ import { Button, Field } from "./ui";
 
 export function Empresa({ notify }: { notify: (message: string) => void }) {
   const books = useBooks((s) => s.books);
+  const workspace = useBooks((s) => s.workspace);
   const patch = useBooks((s) => s.patchCompany);
-  const reset = useBooks((s) => s.reset);
+  const loadSample = useBooks((s) => s.loadSample);
+  const beginSetup = useBooks((s) => s.beginSetup);
   const replace = useBooks((s) => s.replaceBooks);
   const [form, setForm] = useState(books.company);
   const gap = imbalance(books);
@@ -76,20 +78,13 @@ export function Empresa({ notify }: { notify: (message: string) => void }) {
       </form>
 
       <div className="space-y-4">
-        <section className="rounded-3xl bg-ink p-5 text-card">
-          <h2 className="text-2xl text-card">Por qué esto compite</h2>
-          <ul className="mt-3 space-y-3 text-sm text-sand">
-            <li>Partida doble automática. Una tienda no debería aprender débitos para tener un balance que cuadra.</li>
-            <li>Cartera con edad, no una lista de ventas. El crédito deja de disfrazarse de caja.</li>
-            <li>Reposición por ritmo de venta y clase ABC por margen, como un inventario de verdad.</li>
-            <li>Copiloto local en español. La orden se ejecuta o se rechaza; no hay cifras inventadas.</li>
-            <li>Impuesto por país y moneda latinoamericana, sin prometer factura DIAN que no existe.</li>
-          </ul>
-        </section>
         <section className="rounded-3xl border border-line bg-card p-5">
-          <h2 className="text-2xl">Tus datos</h2>
+          <h2 className="text-2xl">Respaldo</h2>
           <p className="mt-1 text-sm text-muted">
-            Viven en este navegador. {Math.abs(gap) < 1 ? "Los libros están cuadrados." : `Hay un descuadre de ${gap}.`}
+            {workspace === "sample"
+              ? "Estás recorriendo la empresa de ejemplo. Créala tuya antes de registrar clientes reales."
+              : "Estos libros son de tu empresa y se guardan en tu cuenta."}{" "}
+            {Math.abs(gap) < 1 ? "Están cuadrados." : `Hay un descuadre de ${gap}.`} Exporta una copia antes de cambiar de equipo.
           </p>
           <div className="mt-4 flex flex-wrap gap-2">
             <Button
@@ -99,44 +94,64 @@ export function Empresa({ notify }: { notify: (message: string) => void }) {
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement("a");
                 a.href = url;
-                a.download = "contable-pro-libros.json";
+                a.download = `${books.company.name || "contable-pro"}-libros.json`.replace(/\s+/g, "-").toLowerCase();
                 a.click();
                 URL.revokeObjectURL(url);
               }}
             >
-              Exportar JSON
+              Exportar respaldo
             </Button>
             <label className="inline-flex min-h-11 cursor-pointer items-center rounded-xl border border-line bg-card px-4 text-sm font-medium">
-              Importar
+              Importar respaldo
               <input
                 type="file"
                 accept="application/json"
                 className="sr-only"
                 onChange={async (event) => {
                   const file = event.target.files?.[0];
+                  event.target.value = "";
                   if (!file) return;
                   try {
                     const data = JSON.parse(await file.text()) as Books;
-                    if (data.version !== 1 || !data.company || !Array.isArray(data.sales)) throw new Error("formato");
+                    if (data.version !== 1 || !data.company?.name || !Array.isArray(data.sales)) throw new Error("formato");
                     replace(data);
-                    notify("Libros importados");
+                    setForm(data.company);
+                    notify("Libros de tu empresa restaurados");
                   } catch {
-                    notify("Ese archivo no es un libro de Contable Pro");
+                    notify("Ese archivo no es un respaldo de Contable Pro");
                   }
                 }}
               />
             </label>
+          </div>
+        </section>
+        <section className="rounded-3xl border border-line bg-card p-5">
+          <h2 className="text-2xl">Empresa</h2>
+          <p className="mt-1 text-sm text-muted">
+            Cerrar vuelve al alta, en blanco. El ejemplo de Mercado Andino es aparte y no se mezcla con tus comprobantes.
+          </p>
+          <div className="mt-4 flex flex-wrap gap-2">
             <Button
               variant="danger"
               onClick={() => {
-                if (window.confirm("¿Volver a los datos de demostración? Se pierde lo que registraste aquí.")) reset();
+                if (window.confirm("¿Cerrar esta empresa y abrir otra? Se pierde lo que no hayas exportado.")) beginSetup();
               }}
             >
-              Restaurar demo
+              Nueva empresa
             </Button>
+            {workspace !== "sample" && (
+              <Button
+                variant="ghost"
+                onClick={() => {
+                  if (window.confirm("¿Cargar Mercado Andino? Reemplaza los libros actuales por la empresa de ejemplo.")) loadSample();
+                }}
+              >
+                Ver empresa de ejemplo
+              </Button>
+            )}
           </div>
           <p className="mt-6 text-xs leading-relaxed text-muted">
-            Contable Pro · desarrollado por Richard J. Lobo S. La representación gráfica no sustituye la factura electrónica de la DIAN ni de otra autoridad fiscal.
+            Contable Pro · desarrollado por Richard J. Lobo S. El comprobante es una representación interna. No sustituye la factura electrónica de la DIAN ni de otra autoridad fiscal.
           </p>
         </section>
       </div>

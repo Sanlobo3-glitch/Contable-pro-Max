@@ -4,6 +4,7 @@ import { runCommand } from "./command";
 import {
   BookError,
   acceptQuote,
+  emptyBooks,
   postAdjust,
   postCollection,
   postExpense,
@@ -15,13 +16,33 @@ import {
   saveCategory,
   saveParty,
   saveProduct,
+  setOpening,
   setQuoteStatus,
   updateCompany,
   voidPurchase,
   voidSale,
 } from "./model";
 import { buildSeed } from "./seed";
-import type { Books, CashVia, PaymentMethod } from "./types";
+import type { Books, CashVia, Company, PaymentMethod } from "./types";
+
+export type Workspace = "setup" | "live" | "sample";
+
+const BLANK: Company = {
+  name: "",
+  nit: "",
+  address: "",
+  city: "",
+  phone: "",
+  email: "",
+  currency: "COP",
+  taxRate: 0.19,
+  invoicePrefix: "FE",
+  regime: "Responsable de IVA",
+};
+
+function freshBooks(): Books {
+  return emptyBooks(BLANK, new Date().toISOString());
+}
 
 function guard(run: () => Books): { ok: true } | { ok: false; error: string } {
   try {
@@ -34,9 +55,17 @@ function guard(run: () => Books): { ok: true } | { ok: false; error: string } {
 
 interface Store {
   books: Books;
+  workspace: Workspace;
   ready: boolean;
+  ownerId: string | null;
+  cloud: "local" | "saving" | "saved" | "error";
   setReady: (ready: boolean) => void;
-  reset: () => void;
+  setCloud: (cloud: Store["cloud"]) => void;
+  claim: (ownerId: string) => void;
+  applyRemote: (books: Books, workspace: Workspace, ownerId: string) => void;
+  openLive: (company: Company, opening: { cash: number; bank: number }) => { ok: true } | { ok: false; error: string };
+  loadSample: () => void;
+  beginSetup: () => void;
   command: (text: string) => { ok: boolean; message: string };
   sell: (input: { customerId: string | null; payment: PaymentMethod; lines: { productId: string; qty: number; unitGross?: number }[] }) => { ok: true; number: string } | { ok: false; error: string };
   buy: (input: { supplierId: string; payment: "efectivo" | "credito"; lines: { productId: string; qty: number; unitNet?: number }[] }) => { ok: true; number: string } | { ok: false; error: string };
@@ -60,10 +89,45 @@ interface Store {
 export const useBooks = create<Store>()(
   persist(
     (set, get) => ({
-      books: buildSeed(new Date()),
+      books: freshBooks(),
+      workspace: "setup",
       ready: false,
+      ownerId: null,
+      cloud: "local",
       setReady: (ready) => set({ ready }),
-      reset: () => set({ books: buildSeed(new Date()) }),
+      setCloud: (cloud) => set({ cloud }),
+      claim: (ownerId) => set({ ownerId }),
+      applyRemote: (books, workspace, ownerId) => set({ books, workspace, ownerId }),
+      openLive: (company, opening) => {
+        const name = company.name.trim();
+        if (name.length < 2) return { ok: false, error: "Escribe la razón social" };
+        const rate = Number(company.taxRate);
+        if (!Number.isFinite(rate) || rate < 0 || rate > 0.4) return { ok: false, error: "Impuesto inválido" };
+        if (opening.cash < 0 || opening.bank < 0 || !Number.isFinite(opening.cash) || !Number.isFinite(opening.bank)) {
+          return { ok: false, error: "Los saldos de arranque no pueden ser negativos" };
+        }
+        const at = new Date().toISOString();
+        const clean: Company = {
+          name,
+          nit: company.nit.trim(),
+          city: company.city.trim(),
+          address: company.address.trim(),
+          phone: company.phone.trim(),
+          email: company.email.trim(),
+          currency: company.currency || "COP",
+          taxRate: rate,
+          regime: company.regime.trim() || "Responsable de IVA",
+          invoicePrefix: (company.invoicePrefix || "FE").toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 6) || "FE",
+        };
+        let books = emptyBooks(clean, at);
+        if (opening.cash > 0 || opening.bank > 0) {
+          books = setOpening(books, { at, cash: Math.round(opening.cash), bank: Math.round(opening.bank), lines: [] });
+        }
+        set({ books, workspace: "live" });
+        return { ok: true };
+      },
+      loadSample: () => set({ books: buildSeed(new Date()), workspace: "sample" }),
+      beginSetup: () => set({ books: freshBooks(), workspace: "setup" }),
       command: (text) => {
         const res = runCommand(get().books, text, new Date());
         if (res.books) set({ books: res.books });
@@ -153,8 +217,12 @@ export const useBooks = create<Store>()(
         const r = guard(() => setQuoteStatus(get().books, id, "rechazada"));
         return r.ok ? { ok: true } : { ok: false, error: r.error };
       },
-      replaceBooks: (books) => set({ books }),
+      replaceBooks: (books) => set({ books, workspace: "live" }),
     }),
-    { name: "contable-pro-libros-v2", skipHydration: true, partialize: (state) => ({ books: state.books }) },
+    {
+      name: "contable-pro-libros-v3",
+      skipHydration: true,
+      partialize: (state) => ({ books: state.books, workspace: state.workspace, ownerId: state.ownerId }),
+    },
   ),
 );

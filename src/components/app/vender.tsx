@@ -4,7 +4,7 @@ import { taxFromGross } from "@/lib/books/model";
 import { fold, PAYMENT_LABEL } from "@/lib/books/money";
 import { useBooks } from "@/lib/books/store";
 import type { PaymentMethod } from "@/lib/books/types";
-import { Button, Pill, useMoney } from "./ui";
+import { Button, Empty, Pill, useMoney } from "./ui";
 
 interface CartLine {
   productId: string;
@@ -102,6 +102,14 @@ export function Vender({ notify }: { notify: (message: string) => void }) {
           ))}
         </div>
         <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-3">
+          {visible.length === 0 && (
+            <div className="col-span-full">
+              <Empty
+                title={books.products.length === 0 ? "Catálogo vacío" : "Nada coincide"}
+                text={books.products.length === 0 ? "Crea productos en Inventario y dales existencia. La caja no inventa mercancía." : "Prueba otro nombre o quita el filtro."}
+              />
+            </div>
+          )}
           {visible.map((product) => {
             const margin = product.price > 0 ? 1 - product.cost / (product.price / (1 + books.company.taxRate)) : 0;
             return (

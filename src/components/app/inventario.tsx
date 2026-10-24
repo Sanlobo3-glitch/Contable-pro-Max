@@ -56,6 +56,13 @@ export function Inventario({ notify }: { notify: (message: string) => void }) {
             </tr>
           </thead>
           <tbody>
+            {intel.length === 0 && (
+              <tr>
+                <td colSpan={7} className="px-4 py-8">
+                  <Empty title="Sin productos" text="Crea el primero con precio de venta y costo. Después compra o ajusta la existencia para poder vender." />
+                </td>
+              </tr>
+            )}
             {intel.map((row) => (
               <tr key={row.product.id} className="border-t border-line">
                 <td className="px-4 py-3">
