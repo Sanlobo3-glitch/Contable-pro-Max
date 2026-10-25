@@ -1,7 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
   <rect width="32" height="32" rx="8" fill="#14202b"/>
-  <rect x="5.5" y="8" width="9.2" height="12.4" rx="1.4" fill="#f3efe6"/>
-  <rect x="17.3" y="8" width="9.2" height="12.4" rx="1.4" fill="#fffdf8"/>
-  <rect x="14.5" y="7" width="3" height="14.6" rx="1" fill="#b85c38"/>
-  <rect x="7.2" y="22.6" width="17.6" height="2.6" rx="1.3" fill="#1d6b4f"/>
+  <text x="16" y="21.5" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="15" font-weight="700" fill="#fffdf8">Cp</text>
+  <rect x="10" y="24.2" width="12" height="1.6" rx="0.8" fill="#b85c38"/>
 </svg>
