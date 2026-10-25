@@ -11,6 +11,7 @@ import {
 import { useEffect, useState, type ReactNode } from "react";
 import { useBooks } from "@/lib/books/store";
 import { UserButton } from "@/lib/auth/gates";
+import { useDeviceMode, setDeviceMode } from "@/lib/books/device";
 import { cn } from "./ui";
 
 export type ViewId =
@@ -48,7 +49,16 @@ export function Shell({
   const workspace = useBooks((s) => s.workspace);
   const cloud = useBooks((s) => s.cloud);
   const beginSetup = useBooks((s) => s.beginSetup);
-  const cloudLabel = cloud === "saving" ? "Guardando en tu cuenta…" : cloud === "saved" ? "Guardado en tu cuenta" : cloud === "error" ? "No se pudo guardar en la cuenta" : "En tu cuenta";
+  const device = useDeviceMode();
+  const cloudLabel = device
+    ? "Solo en este equipo"
+    : cloud === "saving"
+      ? "Guardando en tu cuenta…"
+      : cloud === "saved"
+        ? "Guardado en tu cuenta"
+        : cloud === "error"
+          ? "No se pudo guardar en la cuenta"
+          : "En tu cuenta";
   const [text, setText] = useState("");
   const [note, setNote] = useState<string | null>(null);
   const [more, setMore] = useState(false);
@@ -112,6 +122,11 @@ export function Shell({
           <div className="border-t border-line px-5 py-4">
             <p className="truncate text-sm font-medium">{company || "Sin empresa"}</p>
             <p className="mt-1 text-xs text-muted">{workspace === "sample" ? "Empresa de ejemplo" : cloudLabel}</p>
+            {device && (
+              <button type="button" className="mt-2 min-h-10 text-sm font-medium text-copper-deep" onClick={() => setDeviceMode(false)}>
+                Volver a la cuenta
+              </button>
+            )}
             <div className="mt-3">
               <UserButton />
             </div>
@@ -131,7 +146,13 @@ export function Shell({
                   <p className="truncate text-xs text-muted">{company}</p>
                 </div>
               </div>
-              <UserButton />
+              {device ? (
+                <button type="button" className="min-h-10 shrink-0 text-xs font-medium text-copper-deep" onClick={() => setDeviceMode(false)}>
+                  Cuenta
+                </button>
+              ) : (
+                <UserButton />
+              )}
             </div>
             <form
               className="mt-3 md:mt-0"

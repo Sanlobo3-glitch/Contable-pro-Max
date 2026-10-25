@@ -1,8 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Acceso } from "@/components/app/acceso";
+import { ContableApp } from "@/components/app/app";
 import { Cuenta } from "@/components/app/sync";
 import { useCurrentUserState } from "@/lib/auth/use-current-user";
+import { useDeviceMode } from "@/lib/books/device";
 import { useBooks } from "@/lib/books/store";
 
 export const Route = createFileRoute("/")({ component: Home });
@@ -21,6 +23,8 @@ function Splash() {
 function Home() {
   const ready = useBooks((s) => s.ready);
   const { user, isPending } = useCurrentUserState();
+  const device = useDeviceMode();
+  const [waited, setWaited] = useState(false);
   useEffect(() => {
     let alive = true;
     const pending = useBooks.persist.rehydrate();
@@ -31,8 +35,13 @@ function Home() {
       alive = false;
     };
   }, []);
+  useEffect(() => {
+    const timer = window.setTimeout(() => setWaited(true), 4000);
+    return () => window.clearTimeout(timer);
+  }, []);
 
-  if (!ready || isPending) return <Splash />;
-  if (!user) return <Acceso />;
-  return <Cuenta />;
+  if (!ready || (isPending && !device && !waited)) return <Splash />;
+  if (user) return <Cuenta />;
+  if (device) return <ContableApp />;
+  return <Acceso />;
 }

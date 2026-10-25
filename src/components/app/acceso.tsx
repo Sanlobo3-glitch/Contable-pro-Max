@@ -1,5 +1,6 @@
 import { useState, type FormEvent } from "react";
 import { GROK_PROVIDERS, authClient, signIn } from "@/lib/auth/client";
+import { setDeviceMode } from "@/lib/books/device";
 import { Button, Field } from "./ui";
 
 export function Acceso() {
@@ -19,9 +20,14 @@ export function Acceso() {
         mode === "crear"
           ? await authClient.signUp.email({ email, password, name: name.trim() || email, callbackURL: "/" })
           : await authClient.signIn.email({ email, password, callbackURL: "/" });
-      if (result.error) setError(result.error.message || "No se pudo entrar");
+      if (result.error) {
+        setError(
+          result.error.message ||
+            "No se pudo crear la sesión. En Vercel todavía no hay base de datos: usa “Probar en este equipo”.",
+        );
+      }
     } catch {
-      setError("No se pudo entrar");
+      setError("No se pudo crear la sesión. Prueba en este equipo mientras conectas la base.");
     } finally {
       setPending(false);
     }
@@ -67,7 +73,17 @@ export function Acceso() {
             </button>
           ))}
         </div>
-        <p className="mt-8 text-xs leading-relaxed text-muted">Desarrollado por Richard J. Lobo S.</p>
+        <button
+          type="button"
+          className="mt-4 flex min-h-12 w-full items-center justify-center rounded-xl bg-copper px-4 text-sm font-medium text-on-copper"
+          onClick={() => setDeviceMode(true)}
+        >
+          Probar en este equipo
+        </button>
+        <p className="mt-2 text-xs leading-relaxed text-muted">
+          No necesita Supabase ni servidor. Los libros quedan en este navegador para que puedas usar la app ya. La cuenta con correo se enciende cuando la publicación trae su base de datos.
+        </p>
+        <p className="mt-6 text-xs leading-relaxed text-muted">Desarrollado por Richard J. Lobo S.</p>
       </div>
     </main>
   );
