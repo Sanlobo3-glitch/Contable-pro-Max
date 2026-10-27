@@ -9,6 +9,8 @@ export const Route = createRootRoute({
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "Contable Pro" },
+      { name: "application-name", content: "Contable Pro" },
+      { name: "apple-mobile-web-app-title", content: "Contable Pro" },
       { name: "theme-color", content: "#14202b" },
     ],
     links: [

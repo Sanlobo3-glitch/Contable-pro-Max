@@ -6,7 +6,7 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 
-export const DEFAULT_APP_NAME = "Contable Pro";
+export const DEFAULT_APP_NAME = "Grok App";
 export const OG_SERVICE_URL_DEFAULT = "https://og.grok.me";
 export const OG_SITE_REL_PATH = "src/lib/og/site.json";
 
@@ -157,33 +157,46 @@ export function renderInstallPageHtml(template, { host, url } = {}) {
     .replaceAll("{{APP_URL}}", escapeHtml(stripInstallParams(url)));
 }
 
-export function renderWebManifest(hostHeader) {
-  const name = appNameFromHost(hostHeader);
+export function renderWebManifest(hostHeader, site = {}) {
+  const fromSite = String(site?.title ?? "").trim();
+  const name =
+    fromSite && fromSite !== DEFAULT_APP_NAME ? fromSite : appNameFromHost(hostHeader);
+  const theme = "#14202b";
   return JSON.stringify(
     {
       name,
       short_name: name,
+      description: "Libros, ventas e inventario de tu negocio.",
       id: "/",
       start_url: "/",
       scope: "/",
       display: "standalone",
-      background_color: "#000000",
-      theme_color: "#000000",
+      background_color: theme,
+      theme_color: theme,
       icons: [
         {
           src: "/__grok/icon-180.png",
-        },
-        {
-          src: "/__grok/icon-192.png",
-          sizes: "192x192",
-          type: "image/png",
-        },
-        {
-          src: "/__grok/icon-512.png",
-          sizes: "512x512",
-          type: "image/png"
           sizes: "180x180",
           type: "image/png",
+          purpose: "any",
+        },
+        {
+          src: "/icon-192.png",
+          sizes: "192x192",
+          type: "image/png",
+          purpose: "any",
+        },
+        {
+          src: "/icon-512.png",
+          sizes: "512x512",
+          type: "image/png",
+          purpose: "any",
+        },
+        {
+          src: "/icon-512-maskable.png",
+          sizes: "512x512",
+          type: "image/png",
+          purpose: "maskable",
         },
       ],
     },

@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Acceso } from "@/components/app/acceso";
 import { ContableApp } from "@/components/app/app";
 import { Cuenta } from "@/components/app/sync";
@@ -22,9 +22,8 @@ function Splash() {
 
 function Home() {
   const ready = useBooks((s) => s.ready);
-  const { user, isPending } = useCurrentUserState();
+  const { user } = useCurrentUserState();
   const device = useDeviceMode();
-  const [waited, setWaited] = useState(false);
   useEffect(() => {
     let alive = true;
     const pending = useBooks.persist.rehydrate();
@@ -35,12 +34,8 @@ function Home() {
       alive = false;
     };
   }, []);
-  useEffect(() => {
-    const timer = window.setTimeout(() => setWaited(true), 4000);
-    return () => window.clearTimeout(timer);
-  }, []);
 
-  if (!ready || (isPending && !device && !waited)) return <Splash />;
+  if (!ready) return <Splash />;
   if (user) return <Cuenta />;
   if (device) return <ContableApp />;
   return <Acceso />;

@@ -515,6 +515,13 @@ test("renders the manifest with the per-app name", () => {
   assert.equal(manifest.icons[0].src, "/__grok/icon-180.png");
 });
 
+test("prefers the site title over the Grok App fallback", () => {
+  const manifest = JSON.parse(renderWebManifest("contable-pro-max.vercel.app", { title: "Contable Pro" }));
+  assert.equal(manifest.name, "Contable Pro");
+  assert.equal(manifest.short_name, "Contable Pro");
+  assert.equal(manifest.theme_color, "#14202b");
+});
+
 // Tripwires: the deployed-app path only works if Nitro scans server/ — an
 // accidental edit that drops serverDir or the middleware file would otherwise
 // fail silently (published apps would just render the app for ?install=1).
