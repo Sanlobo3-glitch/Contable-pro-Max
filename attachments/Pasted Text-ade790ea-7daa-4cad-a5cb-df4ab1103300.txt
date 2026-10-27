@@ -1,0 +1,375 @@
+~/contable-pro-max
+
+# 1. Descomprimir la nueva versión sobrescribiendo los archivos necesarios
+unzip -o "/storage/emulated/0/Download/grok-workspace-6.zip" -d .
+
+# 2. Verificar el estado de los cambios
+git status
+
+# 3. Preparar el commit y subir a GitHub
+git add -A
+git commit -m "Actualización v6 desde grok-workspace-6.zip"
+git push origin main
+
+echo "----------------------------------------"
+echo "¡Sexta actualización subida con éxito!"
+echo "----------------------------------------"
+Archive:  /storage/emulated/0/Download/grok-workspace-6.zip
+  inflating: ./.grok/app-env.json
+  inflating: ./.grok/banner-left-crop.jpg
+  inflating: ./.grok/banner-preview.jpg
+  inflating: ./.grok/favicon-16.png
+  inflating: ./.grok/favicon-32x4.png
+  inflating: ./.grok/favicon-64.png
+  inflating: ./.grok/preview.log
+  inflating: ./.grok/references/browser-qa.md
+  inflating: ./.grok/references/data-and-auth.md
+  inflating: ./.grok/references/deploy-target.md
+  inflating: ./.grok/references/generated-art.md
+  inflating: ./.grok/references/hibernate-revive.md
+  inflating: ./.grok/references/scaffold.md
+  inflating: ./.grok/skills/auth/SKILL.md
+  inflating: ./.grok/skills/auth/references/grok-identity.md
+  inflating: ./.grok/skills/auth/references/per-user-data.md
+  inflating: ./.grok/skills/auth/references/prewired-and-env.md
+  inflating: ./.grok/skills/auth/references/session-ui.md
+  inflating: ./.grok/skills/auth/references/sign-in-methods.md
+  inflating: ./.grok/skills/auth/references/wiring.md
+  inflating: ./.grok/skills/building-games/SKILL.md
+  inflating: ./.grok/skills/building-games/references/3d-libs.md
+  inflating: ./.grok/skills/building-games/references/ai-pathfinding.md
+  inflating: ./.grok/skills/building-games/references/audio.md
+  inflating: ./.grok/skills/building-games/references/babylon.md
+  inflating: ./.grok/skills/building-games/references/collision-physics.md
+  inflating: ./.grok/skills/building-games/references/ecs-architecture.md
+  inflating: ./.grok/skills/building-games/references/game-feel-juice.md
+  inflating: ./.grok/skills/building-games/references/genres/board-card-chess.md
+  inflating: ./.grok/skills/building-games/references/genres/endless-runner.md
+  inflating: ./.grok/skills/building-games/references/genres/fps.md
+  inflating: ./.grok/skills/building-games/references/genres/platformer-2d.md
+  inflating: ./.grok/skills/building-games/references/genres/puzzle-match3-tetris.md
+  inflating: ./.grok/skills/building-games/references/genres/racing-kart.md
+  inflating: ./.grok/skills/building-games/references/genres/topdown-twin-stick.md
+  inflating: ./.grok/skills/building-games/references/genres/tower-defense.md
+  inflating: ./.grok/skills/building-games/references/genres/voxel-minecraft.md
+  inflating: ./.grok/skills/building-games/references/input.md
+  inflating: ./.grok/skills/building-games/references/phaser.md
+  inflating: ./.grok/skills/building-games/references/procedural-generation.md
+  inflating: ./.grok/skills/building-games/references/save-persistence.md
+  inflating: ./.grok/skills/building-games/references/threejs-foundational.md
+  inflating: ./.grok/skills/controls/SKILL.md
+  inflating: ./.grok/skills/design-ui/SKILL.md
+  inflating: ./.grok/skills/design-ui/references/animations.md
+  inflating: ./.grok/skills/design-ui/references/performance.md
+  inflating: ./.grok/skills/design-ui/references/refined-ui.md
+  inflating: ./.grok/skills/design-ui/references/surfaces.md
+  inflating: ./.grok/skills/design-ui/references/typography.md
+  inflating: ./.grok/skills/game-animation-frames/SKILL.md
+  inflating: ./.grok/skills/game-asset-core/SKILL.md
+  inflating: ./.grok/skills/game-character-consistency/SKILL.md
+  inflating: ./.grok/skills/game-tilesets/SKILL.md
+  inflating: ./.grok/skills/game-ui-icons/SKILL.md
+  inflating: ./.grok/skills/generate2dmap/LICENSE
+  inflating: ./.grok/skills/generate2dmap/SKILL.md
+  inflating: ./.grok/skills/generate2dmap/SOURCE.md
+  inflating: ./.grok/skills/generate2dmap/references/deliverables.md
+  inflating: ./.grok/skills/generate2dmap/references/layered-map-contract.md
+  inflating: ./.grok/skills/generate2dmap/references/map-strategies.md
+  inflating: ./.grok/skills/generate2dmap/references/object-production-gate.md
+  inflating: ./.grok/skills/generate2dmap/references/pipeline.md
+  inflating: ./.grok/skills/generate2dmap/references/prop-pack-contract.md
+  inflating: ./.grok/skills/generate2dmap/references/side-scroll-stages.md
+  inflating: ./.grok/skills/generate2dmap/scripts/compose_layered_preview.py
+  inflating: ./.grok/skills/generate2dmap/scripts/extract_prop_pack.py
+  inflating: ./.grok/skills/generate2dsprite/LICENSE
+  inflating: ./.grok/skills/generate2dsprite/SKILL.md
+  inflating: ./.grok/skills/generate2dsprite/SOURCE.md
+  inflating: ./.grok/skills/generate2dsprite/references/modes.md
+  inflating: ./.grok/skills/generate2dsprite/references/prompt-rules.md
+  inflating: ./.grok/skills/generate2dsprite/scripts/generate2dsprite.py
+  inflating: ./.grok/skills/generate2dsprite/scripts/make_layout_guide.py
+  inflating: ./.grok/skills/imagine-grok-build/SKILL.md
+  inflating: ./.grok/skills/multiplayer-p2p/SKILL.md
+  inflating: ./.grok/skills/multiplayer-p2p/references/react-binding.md
+  inflating: ./.grok/skills/multiplayer-p2p/references/signaling-relay.md
+  inflating: ./.grok/skills/neon/SKILL.md
+  inflating: ./.grok/skills/og/SKILL.md
+  inflating: ./.grok/skills/og/references/brand-pass.md
+  inflating: ./.grok/skills/og/references/custom-card.md
+  inflating: ./.grok/skills/og/references/favicon-and-icons.md
+  inflating: ./.grok/skills/og/references/og-type-contract.md
+  inflating: ./.grok/skills/og/references/placeholder-card.md
+  inflating: ./.grok/skills/og/references/x-banner.md
+  inflating: ./.grok/skills/threejs/SKILL.md
+  inflating: ./.grok/skills/threejs/references/llms-full.txt
+  inflating: ./.grok/skills/video2dsprite/LICENSE
+  inflating: ./.grok/skills/video2dsprite/SKILL.md
+  inflating: ./.grok/skills/video2dsprite/SOURCE.md
+  inflating: ./.grok/skills/video2dsprite/references/pipeline.md
+  inflating: ./.grok/skills/video2dsprite/references/prompt-rules.md
+  inflating: ./.grok/skills/video2dsprite/scripts/video2dsprite.py
+  inflating: ./.grok/skills/xai-api/SKILL.md
+  inflating: ./.grok/status
+  inflating: ./.node_modules.lock
+  inflating: ./.prettierrc
+  inflating: ./.vercel/output/config.json
+  inflating: ./.vercel/output/functions/__server.func/.vc-config.json
+  inflating: ./.vercel/output/functions/__server.func/_chunks/core.mjs
+  inflating: ./.vercel/output/functions/__server.func/_chunks/ssr-renderer.mjs
+  inflating: ./.vercel/output/functions/__server.func/_libs/@better-auth/core+[...].mjs
+  inflating: ./.vercel/output/functions/__server.func/_libs/@better-auth/kysely-adapter+[...].mjs
+  inflating: ./.vercel/output/functions/__server.func/_libs/@better-auth/telemetry+[...].mjs
+  inflating: ./.vercel/output/functions/__server.func/_libs/@tanstack/react-router+[...].mjs
+  inflating: ./.vercel/output/functions/__server.func/_libs/@tanstack/router-core+[...].mjs
+  inflating: ./.vercel/output/functions/__server.func/_libs/better-auth__memory-adapter.mjs
+  inflating: ./.vercel/output/functions/__server.func/_libs/better-auth__utils.mjs
+  inflating: ./.vercel/output/functions/__server.func/_libs/clsx.mjs
+  inflating: ./.vercel/output/functions/__server.func/_libs/d3-array.mjs
+  inflating: ./.vercel/output/functions/__server.func/_libs/d3-color.mjs
+  inflating: ./.vercel/output/functions/__server.func/_libs/d3-format.mjs
+  inflating: ./.vercel/output/functions/__server.func/_libs/d3-interpolate.mjs
+  inflating: ./.vercel/output/functions/__server.func/_libs/d3-path.mjs
+  inflating: ./.vercel/output/functions/__server.func/_libs/d3-scale+[...].mjs
+  inflating: ./.vercel/output/functions/__server.func/_libs/d3-shape.mjs
+  inflating: ./.vercel/output/functions/__server.func/_libs/decimal.js-light.mjs
+  inflating: ./.vercel/output/functions/__server.func/_libs/defu.mjs
+  inflating: ./.vercel/output/functions/__server.func/_libs/electric-sql__pglite.mjs
+  inflating: ./.vercel/output/functions/__server.func/_libs/eventemitter3.mjs
+  inflating: ./.vercel/output/functions/__server.func/_libs/fast-equals.mjs
+  inflating: ./.vercel/output/functions/__server.func/_libs/h3+rou3+srvx.mjs
+  inflating: ./.vercel/output/functions/__server.func/_libs/h3-v2+rou3.mjs
+  inflating: ./.vercel/output/functions/__server.func/_libs/jose.mjs
+  inflating: ./.vercel/output/functions/__server.func/_libs/lodash.mjs
+  inflating: ./.vercel/output/functions/__server.func/_libs/lucide-react.mjs
+  inflating: ./.vercel/output/functions/__server.func/_libs/nanostores.mjs
+  inflating: ./.vercel/output/functions/__server.func/_libs/noble__ciphers.mjs
+  inflating: ./.vercel/output/functions/__server.func/_libs/noble__hashes.mjs
+  inflating: ./.vercel/output/functions/__server.func/_libs/pg.mjs
+  inflating: ./.vercel/output/functions/__server.func/_libs/prop-types.mjs
+  inflating: ./.vercel/output/functions/__server.func/_libs/react-is.mjs
+  inflating: ./.vercel/output/functions/__server.func/_libs/react-smooth.mjs
+  inflating: ./.vercel/output/functions/__server.func/_libs/recharts+[...].mjs
+  inflating: ./.vercel/output/functions/__server.func/_libs/tailwind-merge.mjs
+  inflating: ./.vercel/output/functions/__server.func/_libs/tanstack__history.mjs
+  inflating: ./.vercel/output/functions/__server.func/_libs/zod.mjs
+  inflating: ./.vercel/output/functions/__server.func/_libs/zustand.mjs
+  inflating: ./.vercel/output/functions/__server.func/_runtime.mjs
+  inflating: ./.vercel/output/functions/__server.func/_ssr/client-1vAx-gM_.mjs
+  inflating: ./.vercel/output/functions/__server.func/_ssr/db-D1MBmCYG.mjs
+  inflating: ./.vercel/output/functions/__server.func/_ssr/empty-plugin-adapters-D9UWiqvJ.mjs
+  inflating: ./.vercel/output/functions/__server.func/_ssr/isolation.server-CGNg1r0B.mjs
+  inflating: ./.vercel/output/functions/__server.func/_ssr/kysely-adapter-Cj_QZw5p.mjs
+  inflating: ./.vercel/output/functions/__server.func/_ssr/login-B24dPBfp.mjs
+  inflating: ./.vercel/output/functions/__server.func/_ssr/middleware-ChJJIyFD.mjs
+  inflating: ./.vercel/output/functions/__server.func/_ssr/remote-BvtzGPhr.mjs
+  inflating: ./.vercel/output/functions/__server.func/_ssr/router-Dp8dIhJV.mjs
+  inflating: ./.vercel/output/functions/__server.func/_ssr/routes-CAPwiG0n.mjs
+  inflating: ./.vercel/output/functions/__server.func/_ssr/server-IIRv8oG_.mjs
+  inflating: ./.vercel/output/functions/__server.func/_ssr/ssr.mjs
+  inflating: ./.vercel/output/functions/__server.func/_ssr/start-5Z2QO8AU.mjs
+  inflating: ./.vercel/output/functions/__server.func/_ssr/url-BE6YaD7r.mjs
+  inflating: ./.vercel/output/functions/__server.func/_ssr/use-current-user-O7Ub1g3y.mjs
+  inflating: ./.vercel/output/functions/__server.func/_ssr/verify.server-BYUii9ry.mjs
+  inflating: ./.vercel/output/functions/__server.func/_tanstack-start-manifest_v-DFSJ-ebk.mjs
+  inflating: ./.vercel/output/functions/__server.func/index.mjs
+  inflating: ./.vercel/output/nitro.json
+  inflating: ./.vercel/output/static/__grok/icon-180.png
+  inflating: ./.vercel/output/static/__grok/install/assets/homescreen/glass-puzzle.svg
+  inflating: ./.vercel/output/static/__grok/install/assets/homescreen/glass-share.svg
+  inflating: ./.vercel/output/static/__grok/install/assets/homescreen/logo-grok.svg
+  inflating: ./.vercel/output/static/__grok/install/assets/homescreen/ob-ipad.png
+  inflating: ./.vercel/output/static/__grok/install/assets/homescreen/ob-phone.png
+  inflating: ./.vercel/output/static/__grok/install/assets/homescreen/plus.svg
+  inflating: ./.vercel/output/static/__grok/install/styles.css
+  inflating: ./.vercel/output/static/assets/index-BDFXoeGQ.js
+  inflating: ./.vercel/output/static/assets/login-BJiNjZ3v.js
+  inflating: ./.vercel/output/static/assets/react-DB-4Zxce.js
+  inflating: ./.vercel/output/static/assets/routes-B9Ix1IQQ.js
+  inflating: ./.vercel/output/static/assets/styles-B52LAD3K.css
+  inflating: ./.vercel/output/static/assets/use-current-user-kidUxtK1.js
+  inflating: ./.vercel/output/static/favicon.svg
+  inflating: ./.vercel/output/static/og.jpg
+  inflating: ./AGENTS.md
+  inflating: ./attachments/1002264190.jpg
+  inflating: ./attachments/Contable_Pro-main (4).zip
+  inflating: ./eslint.config.mjs
+  inflating: ./migrations/0001_auth.sql
+  inflating: ./migrations/0002_ledgers.sql
+  inflating: ./migrations/auth/0001_auth.sql
+  inflating: ./package-lock.json
+  inflating: ./package.json
+  inflating: ./public/__grok/icon-180.png
+  inflating: ./public/__grok/install/assets/homescreen/glass-puzzle.svg
+  inflating: ./public/__grok/install/assets/homescreen/glass-share.svg
+  inflating: ./public/__grok/install/assets/homescreen/logo-grok.svg
+  inflating: ./public/__grok/install/assets/homescreen/ob-ipad.png
+  inflating: ./public/__grok/install/assets/homescreen/ob-phone.png
+  inflating: ./public/__grok/install/assets/homescreen/plus.svg
+  inflating: ./public/__grok/install/styles.css
+  inflating: ./public/favicon.svg
+  inflating: ./public/icon-192.png
+  inflating: ./public/icon-512-maskable.png
+  inflating: ./public/icon-512.png
+  inflating: ./public/og.jpg
+  inflating: ./public/x-banner.jpg
+  inflating: ./screenshots/.gitkeep
+  inflating: ./screenshots/acceder-open.png
+  inflating: ./screenshots/acceder.png
+  inflating: ./screenshots/alta-desktop.png
+  inflating: ./screenshots/alta-mobile-check.png
+  inflating: ./screenshots/app-builder-built-mobile.png
+  inflating: ./screenshots/app-builder-built.json
+  inflating: ./screenshots/app-builder-built.png
+  inflating: ./screenshots/app-builder-preview-mobile.png
+  inflating: ./screenshots/app-builder-preview.json
+  inflating: ./screenshots/app-builder-preview.png
+  inflating: ./screenshots/device-entry.png
+  inflating: ./screenshots/pulso-live.png
+  inflating: ./scripts/app-env-plugin.mjs
+  inflating: ./scripts/brand-check.mjs
+  inflating: ./scripts/brand-check.test.mjs
+  inflating: ./scripts/browser-guard.mjs
+  inflating: ./scripts/browser-smoke-verdict.mjs
+  inflating: ./scripts/browser-smoke-verdict.test.mjs
+  inflating: ./scripts/browser-smoke.mjs
+  inflating: ./scripts/check-auth-invariant.mjs
+  inflating: ./scripts/check-auth-invariant.test.mjs
+  inflating: ./scripts/grok-pwa-plugin.mjs
+  inflating: ./scripts/grok-pwa-plugin.test.mjs
+  inflating: ./scripts/grok-pwa-shared.d.mts
+  inflating: ./scripts/grok-pwa-shared.mjs
+  inflating: ./scripts/install-page.html
+  inflating: ./scripts/migrate.mjs
+  inflating: ./scripts/migration-plan.mjs
+  inflating: ./scripts/migration-plan.test.mjs
+  inflating: ./scripts/preview-thumbnail.mjs
+  inflating: ./scripts/preview.mjs
+  inflating: ./scripts/preview.test.mjs
+  inflating: ./scripts/sign-out-plan.mjs
+  inflating: ./scripts/sign-out-plan.test.mjs
+  inflating: ./scripts/with-app-env.mjs
+  inflating: ./scripts/with-app-env.test.mjs
+  inflating: ./scripts/write-atomic.mjs
+  inflating: ./scripts/write-atomic.test.mjs
+  inflating: ./server/middleware/grok-pwa.ts
+  inflating: ./server/virtual-grok-og-identity.d.ts
+  inflating: ./src/components/app/acceso.tsx
+  inflating: ./src/components/app/alta.tsx
+  inflating: ./src/components/app/app.tsx
+  inflating: ./src/components/app/cobranza.tsx
+  inflating: ./src/components/app/copiloto.tsx
+  inflating: ./src/components/app/empresa.tsx
+  inflating: ./src/components/app/inventario.tsx
+  inflating: ./src/components/app/libros.tsx
+  inflating: ./src/components/app/operaciones.tsx
+  inflating: ./src/components/app/pulso.tsx
+  inflating: ./src/components/app/shell.tsx
+  inflating: ./src/components/app/sync.tsx
+  inflating: ./src/components/app/ui.tsx
+  inflating: ./src/components/app/vender.tsx
+  inflating: ./src/components/preview-host-bridge.tsx
+  inflating: ./src/lib/app-data/app-data.test.ts
+  inflating: ./src/lib/app-data/client.server.ts
+  inflating: ./src/lib/app-data/errors.ts
+  inflating: ./src/lib/app-data/index.ts
+  inflating: ./src/lib/app-data/login.ts
+  inflating: ./src/lib/app-data/readiness-schedule.test.ts
+  inflating: ./src/lib/app-data/readiness-schedule.ts
+  inflating: ./src/lib/app-data/readiness.ts
+  inflating: ./src/lib/app-data/server-only.ts
+  inflating: ./src/lib/app-data/types.ts
+  inflating: ./src/lib/app-data/use-connector-readiness.ts
+  inflating: ./src/lib/auth/client.ts
+  inflating: ./src/lib/auth/email-password.ts
+  inflating: ./src/lib/auth/gate-identity.server.ts
+  inflating: ./src/lib/auth/gate-identity.test.ts
+  inflating: ./src/lib/auth/gate-session-marker.ts
+  inflating: ./src/lib/auth/gate-session.server.ts
+  inflating: ./src/lib/auth/gates.tsx
+  inflating: ./src/lib/auth/isolation.server.ts
+  inflating: ./src/lib/auth/middleware.ts
+  inflating: ./src/lib/auth/pglite-dialect.ts
+  inflating: ./src/lib/auth/popup.server.ts
+  inflating: ./src/lib/auth/preview.ts
+  inflating: ./src/lib/auth/provider.tsx
+  inflating: ./src/lib/auth/providers.ts
+  inflating: ./src/lib/auth/server.ts
+  inflating: ./src/lib/auth/sign-in-gate.test.ts
+  inflating: ./src/lib/auth/sign-in-gate.ts
+  inflating: ./src/lib/auth/use-current-user.ts
+  inflating: ./src/lib/auth/verify.server.ts
+  inflating: ./src/lib/books/command.ts
+  inflating: ./src/lib/books/device.ts
+  inflating: ./src/lib/books/model.ts
+  inflating: ./src/lib/books/money.ts
+  inflating: ./src/lib/books/remote.ts
+  inflating: ./src/lib/books/seed.ts
+  inflating: ./src/lib/books/store.ts
+  inflating: ./src/lib/books/types.ts
+  inflating: ./src/lib/db.ts
+  inflating: ./src/lib/env.server.ts
+  inflating: ./src/lib/error-component.tsx
+  inflating: ./src/lib/multiplayer/index.ts
+  inflating: ./src/lib/multiplayer/p2p.ts
+  inflating: ./src/lib/og/site.json
+  inflating: ./src/lib/preview-embedder-origin.ts
+  inflating: ./src/lib/preview-host-bridge.ts
+  inflating: ./src/lib/preview-path-prefix.test.ts
+  inflating: ./src/lib/preview-path-prefix.ts
+  inflating: ./src/routeTree.gen.ts
+  inflating: ./src/router.tsx
+  inflating: ./src/routes/__root.tsx
+  inflating: ./src/routes/api/auth/$.ts
+  inflating: ./src/routes/index.tsx
+  inflating: ./src/routes/login.tsx
+  inflating: ./src/styles.css
+  inflating: ./startup.sh
+  inflating: ./tsconfig.json
+  inflating: ./vercel.json
+  inflating: ./vite.config.ts
+On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   .grok/status
+        modified:   public/__grok/icon-180.png
+        modified:   scripts/grok-pwa-plugin.mjs
+        modified:   scripts/grok-pwa-plugin.test.mjs
+        modified:   scripts/grok-pwa-shared.d.mts
+        modified:   scripts/grok-pwa-shared.mjs
+        modified:   server/middleware/grok-pwa.ts
+        modified:   src/components/app/acceso.tsx
+        modified:   src/routes/__root.tsx
+        modified:   src/routes/index.tsx
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        public/icon-192.png
+        public/icon-512-maskable.png
+        public/icon-512.png
+        screenshots/acceder-open.png
+        screenshots/acceder.png
+
+no changes added to commit (use "git add" and/or "git commit -a")
+[main cb38e85] Actualización v6 desde grok-workspace-6.zip
+ 15 files changed, 85 insertions(+), 64 deletions(-)
+ create mode 100644 public/icon-192.png
+ create mode 100644 public/icon-512-maskable.png
+ create mode 100644 public/icon-512.png
+ create mode 100644 screenshots/acceder-open.png
+ create mode 100644 screenshots/acceder.png
+Enumerating objects: 49, done.
+Counting objects: 100% (49/49), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (26/26), done.
+Writing objects: 100% (27/27), 49.50 KiB | 16.50 MiB/s, done.
+Total 27 (delta 15), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (15/15), completed with 15 local objects.
+To https://github.com/Sanlobo3-glitch/Contable-pro-Max.git
+   29a73ee..cb38e85  main -> main
+----------------------------------------
+¡Sexta actualización subida con éxito!
+----------------------------------------
+~/contable-pro-max $
